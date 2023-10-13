@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Question, QuestionType } from "../interfaces/question";
+import { Question } from "../interfaces/question";
 
 import "./QuestionEdit.css";
+import { Button, Form } from "react-bootstrap";
 
 export const QuestionEdit = ({
     index,
@@ -10,13 +11,20 @@ export const QuestionEdit = ({
     editQuestion,
     removeQuestion,
     swapQuestion
-}: {}) => {
-    const [a, b] = useState<number>(
+}: {
+    index: number;
+    lastIndex: number;
+    question: Question;
+    editQuestion: (num: number, q: Question) => void;
+    removeQuestion: (num: number) => void;
+    swapQuestion: (num1: number, num2: number) => void;
+}) => {
+    const [optionIndex, setoptionIndex] = useState<number>(
         question.options.findIndex((s: string) => question.expected === s)
     );
 
     const handleNumOptions = (e: React.ChangeEvent<HTMLInputElement>) => {
-        b(0);
+        setoptionIndex(0);
         const newNum =
             parseInt(e.target.value) < 1 ? 1 : parseInt(e.target.value);
         editQuestion(question.id, {
@@ -27,7 +35,7 @@ export const QuestionEdit = ({
         });
     };
 
-    const switchMulti = () => {
+    /*const switchMulti = () => {
         b(0);
         editQuestion(question.id, {
             ...question,
@@ -35,10 +43,10 @@ export const QuestionEdit = ({
             expected: "Example Answer",
             options: Array(3).fill("Example Answer")
         });
-    };
+    };*/
 
     const handlePoints = (e: React.ChangeEvent<HTMLInputElement>) => {
-    	question.points = parseInt(e.target.value)
+        question.points = parseInt(e.target.value);
         editQuestion(question.id, question);
     };
 
@@ -51,13 +59,13 @@ export const QuestionEdit = ({
         editQuestion(question.id, {
             ...question,
             options: newOptions,
-            expected: a === i ? e.target.value : question.expected
+            expected: optionIndex === i ? e.target.value : question.expected
         });
     };
 
     const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const idx = parseInt(e.target.value);
-        b(idx);
+        setoptionIndex(idx);
         editQuestion(question.id, {
             ...question,
             expected: question.options[idx]
@@ -111,7 +119,7 @@ export const QuestionEdit = ({
                                 <Form.Select
                                     className="type_dropdown"
                                     value={question.type}
-                                    onChange={handleSwitch}
+                                    onChange={() => {}}
                                 >
                                     <option
                                         data-testid={
@@ -177,7 +185,7 @@ export const QuestionEdit = ({
                                                         "questionChoice" + index
                                                     }
                                                     value={i}
-                                                    checked={a === i}
+                                                    checked={optionIndex === i}
                                                     onChange={handleRadioChange}
                                                 />
                                                 <Form.Control

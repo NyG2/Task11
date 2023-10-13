@@ -10,7 +10,7 @@ export const QuizList = ({
     editQuiz,
     deleteQuiz,
     showModal
-}: {}) => {
+}: {quizzes: Quiz[]; editQuiz: (id: number, newQ: Quiz) => void; deleteQuiz: (id: number) => void; showModal: () => void;}) => {
     const [displayId, setDisplayId] = useState<null | number>(null);
 
     const handleQuizView = (id: number) => {
@@ -48,6 +48,8 @@ export const QuizList = ({
                             resetView={resetQuizView}
                         ></QuizView>
                     );
+                }else{
+                    return (<div></div>)
                 }
             })}
         </div>

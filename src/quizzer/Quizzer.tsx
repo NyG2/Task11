@@ -31,6 +31,11 @@ export const Quizzer = () => {
     }
 
     function addQuiz(title: string, body: string) {
+        const newQuiz = {id: Math.random() * 1000,
+    title: title,
+    body: body,
+    published: true,
+    questionList: []}
         setQuizzes([...quizzes, newQuiz]);
     }
 

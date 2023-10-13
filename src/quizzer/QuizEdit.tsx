@@ -12,39 +12,54 @@ export const QuizEdit = ({
     deleteQuiz,
     switchEdit,
     resetView
-}: {) => {
+}: {quiz:Quiz; editQuiz: (num: number, q: Quiz) => void; deleteQuiz: (num: number) => void; switchEdit: () => void; resetView: () => void;}) => {
     const [newQuiz, setNewQuiz] = useState<Quiz>({ ...quiz });
 
     const editQuestion = (questionId: number, newQuestion: Question) => {
-        setNewQuiz({
-            ...newQuiz,
-            questionList: newQuiz.questionList.map(
-            )
-        });
-    };
+    setNewQuiz({
+        ...newQuiz,
+        questionList: newQuiz.questionList.map((q) => {
+            if (q.id === questionId) {
+                return newQuestion;
+            }
+            return q;
+        })
+    });
+};
 
-    const removeQuestion = (questionId: number) => {
-        setNewQuiz({
-            ...newQuiz,
-            questionList: newQuiz.questionList.filter(
-            )
-        });
-    };
+  const removeQuestion = (questionId: number) => {
+    setNewQuiz({
+        ...newQuiz,
+        questionList: newQuiz.questionList.filter((qu) => qu.id !== questionId)
+    });
+};
 
     const saveChanges = () => {
         editQuiz(quiz.id, { ...newQuiz });
     };
 
-    const swapQuestion = (idx1: number, idx2: number) => {
+    /*const swapQuestion = (idx1: number, idx2: number) => {
         setNewQuiz({
             ...newQuiz,
             questionList: newQuiz.questionList.map(
                 (q: Question, idx: number): Question => {
                     if (idx === idx1) return newQuiz.questionList[idx2];
                     if (idx === idx2) return newQuiz.questionList[idx1];
-                    return;
+                    return q;
                 }
             )
+        });
+    };*/
+
+    const swapQuestion = (idx1: number, idx2: number) => {
+        const updatedQuestions = [...newQuiz.questionList]; // Create a copy of the original array
+        const temp = updatedQuestions[idx1];
+        updatedQuestions[idx1] = updatedQuestions[idx2];
+        updatedQuestions[idx2] = temp;
+
+        setNewQuiz({
+            ...newQuiz,
+            questionList: updatedQuestions
         });
     };
 
@@ -79,7 +94,7 @@ export const QuizEdit = ({
                             ) => {
                                 setNewQuiz({
                                     ...newQuiz,
-                                    published: 
+                                    published: e.target.checked
                                 });
                             }}
                         ></Form.Check>
