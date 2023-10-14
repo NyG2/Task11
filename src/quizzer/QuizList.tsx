@@ -24,7 +24,7 @@ export const QuizList = ({
     return (
         <div className="quiz_list">
             {!displayId && (
-                <>
+                <div>
                     {quizzes.map((quiz: Quiz) => (
                         <QuizCard
                             key={quiz.id}
@@ -35,7 +35,7 @@ export const QuizList = ({
                     <Button className="add_btn" onClick={showModal}>
                         Add New Quiz
                     </Button>
-                </>
+                </div>
             )}
             {quizzes.map((quiz: Quiz) => {
                 if (displayId === quiz.id) {
@@ -49,7 +49,7 @@ export const QuizList = ({
                         ></QuizView>
                     );
                 }else{
-                    return (<div></div>)
+                    return <div key={`empty-${quiz.id}`}></div>;
                 }
             })}
         </div>

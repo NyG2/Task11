@@ -34,9 +34,9 @@ export const QuestionEdit = ({
             options: Array(newNum).fill("Example Answer")
         });
     };
-
-    /*const switchMulti = () => {
-        b(0);
+/*
+    const switchMulti = () => {
+        setoptionIndex(0);
         editQuestion(question.id, {
             ...question,
             type: "multiple_choice_question",
